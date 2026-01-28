@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Practice</title>
+  </head>
+  <body>
+    <h1>Mock Project</h1>
+    <form id="bounty_form">
+      <label for="name_input"
+        >Name: <input type="text" id="name_input" name="name" />
+      </label>
+      <label for="reward_input"
+        >Reward: <input type="number" id="reward_input" name="reward" />
+      </label>
+      <label for="reason_input"
+        >Reason: <input type="text" id="reason_input" name="reason" />
+      </label>
+      <input id="submit_button" type="submit" value="Submit Bounty" />
+      <input id="reset_button" type="reset" value="reset Bounty" />
+    </form>
+
+    <script>
+    const inp_name = document.getElementById("name_input");
+    const inp_reward = document.getElementById("reward_input");
+    const inp_reason = document.getElementById("reason_input");
+    const form = document.getElementById("bounty_form");
+    const bountyList = document.getElementById("bounty_list");
+
+      async function getBounty() {
+        let data = {
+          name: inp_name.value,
+          reward:inp_reward.value,
+          inp_reason:inp_reason.value
+        };
+
+        try {
+          const res = await fetch("http://localhost:3000/api/bounties", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: `{
+              "name": ${inp_name.value},
+              "reward": 250,
+              "reason": "Infinite loop piracy",
+            }`,
+          });
+          const data = await res.json();
+          renderBounties(data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      getBounty();
+    </script>
+  </body>
+</html>
